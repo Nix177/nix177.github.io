@@ -1,0 +1,28 @@
+<!-- insérer code : 404.html (domain shim vers /petnames/<lang>/) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Not found — redirecting…</title>
+  <meta name="robots" content="noindex,follow" />
+  <script>
+  (function(){
+    var SUPPORTED = ['fr','en','de','es','zh','hi','ar','bn'];
+    var path = location.pathname.replace(/^\/+/, '');
+    var first = (path.split('/')[0] || '').toLowerCase();
+    var qs = location.search || '';
+    var hash = location.hash || '';
+    if (SUPPORTED.includes(first)) {
+      location.replace('/petnames/' + first + '/' + qs + hash);
+      return;
+    }
+    // fallback: envoie à l’app
+    location.replace('/petnames/' + qs + hash);
+  })();
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=/petnames/" /></noscript>
+</head>
+<body>Redirecting…</body>
+</html>
+<!-- /insérer code -->
