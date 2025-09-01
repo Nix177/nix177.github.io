@@ -7,26 +7,18 @@
   <title>Redirecting…</title>
   <meta name="robots" content="noindex,follow" />
   <link rel="canonical" href="https://nix177.github.io/petnames/" />
-  <style>
-    html{background:#0b1020;color:#e6ecff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    body{margin:40px auto;max-width:680px;line-height:1.5}
-    a{color:#9fb6ff}
-  </style>
   <script>
     (function(){
-      // Chemin du projet (avec slash final)
-      var DEST_PROJECT = '/petnames/';
-      // Conserve éventuels paramètres et hash
-      var target = DEST_PROJECT + (location.search || '') + (location.hash || '');
-      if(!/^\//.test(target)) target = '/' + target; // sécurité
-      // Redirection immédiate (remplace l'historique)
+      var DEST = '/petnames/';
+      var target = DEST + (location.search||'') + (location.hash||'');
+      if(!/^\//.test(target)) target = '/' + target;
       location.replace(target);
     })();
   </script>
   <noscript><meta http-equiv="refresh" content="0; url=/petnames/" /></noscript>
 </head>
 <body>
-  Redirecting to the app… If not redirected, <a href="/petnames/">open the app</a>.
+  Redirecting… <a href="/petnames/">open the app</a>.
 </body>
 </html>
 <!-- /insérer code -->
