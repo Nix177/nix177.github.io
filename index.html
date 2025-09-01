@@ -1,66 +1,3 @@
-<!-- =============================================
- index.html (RACINE DU PROJET)  ex: /petnames/index.html
- Redirect détecte la langue et envoie vers /petnames/<lang>/
- Page neutre: pas d'ads, pas de CMP. noindex,follow.
-============================================== -->
-<!-- insérer code : /petnames/index.html -->
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Redirecting…</title>
-  <meta name="robots" content="noindex,follow" />
-  <style>html{background:#0b1020;color:#e6ecff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}body{margin:40px auto;max-width:680px;line-height:1.5}</style>
-  <script>
-  // --- config ---
-  var DEFAULT_LANG = 'en'; // changeable: 'fr', 'en', etc.
-  var MAP = {
-    fr:'fr', en:'en', de:'de', es:'es', zh:'zh', hi:'hi', ar:'ar', bn:'bn',
-    'zh-cn':'zh','zh-hans':'zh','zh-hant':'zh','zh-tw':'zh','zh-hk':'zh'
-  };
-  var SUPPORTED = ['fr','en','de','es','zh','hi','ar','bn'];
-
-  function pickLang(){
-    var list=[]; try{
-      if(navigator.languages&&navigator.languages.length) list = navigator.languages;
-      else if(navigator.language) list=[navigator.language];
-    }catch(_){}
-    list = (list||[]).map(function(l){return String(l||'').toLowerCase();});
-    for(var i=0;i<list.length;i++){
-      var l=list[i]; if(MAP[l]) return MAP[l]; var base=l.split('-')[0]; if(MAP[base]) return MAP[base];
-    }
-    return DEFAULT_LANG;
-  }
-
-  function repoRoot(){
-    var parts = location.pathname.split('/').filter(Boolean); // ex: ["petnames"]
-    if(parts.length && /\.html?$/.test(parts[parts.length-1])) parts.pop();
-    if(parts.length && SUPPORTED.indexOf((parts[parts.length-1]||'').toLowerCase())>=0) parts.pop();
-    var root = '/' + parts.join('/') + '/';
-    return root.replace(/\/+/g,'/');
-  }
-
-  (function(){
-    var lang = pickLang();
-    var target = repoRoot() + lang + '/';
-    // Redirection immédiate (remplace l'historique)
-    location.replace(target);
-  })();
-  </script>
-  <noscript><meta http-equiv="refresh" content="0; url=./en/" /></noscript>
-</head>
-<body>
-  Redirecting to your language… If not redirected, <a href="./en/">click here</a>.
-</body>
-</html>
-<!-- /insérer code -->
-
-
-<!-- =============================================
- index.html (RACINE DU DOMAINE/ORG)  ex: /index.html de nix177.github.io
- Version simple: redirige vers le projet /petnames/ (puis la page ci-dessus gère la langue)
-============================================== -->
 <!-- insérer code : /index.html (domaine → projet) -->
 <!doctype html>
 <html lang="en">
@@ -69,13 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecting…</title>
   <meta name="robots" content="noindex,follow" />
+  <link rel="canonical" href="https://nix177.github.io/petnames/" />
+  <style>
+    html{background:#0b1020;color:#e6ecff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    body{margin:40px auto;max-width:680px;line-height:1.5}
+    a{color:#9fb6ff}
+  </style>
   <script>
-    // Chemin du projet hébergé (avec slash final)
-    var DEST_PROJECT = '/petnames/';
     (function(){
-      var url = DEST_PROJECT;
-      if(!/^\//.test(url)) url = '/' + url; // sécurité
-      location.replace(url);
+      // Chemin du projet (avec slash final)
+      var DEST_PROJECT = '/petnames/';
+      // Conserve éventuels paramètres et hash
+      var target = DEST_PROJECT + (location.search || '') + (location.hash || '');
+      if(!/^\//.test(target)) target = '/' + target; // sécurité
+      // Redirection immédiate (remplace l'historique)
+      location.replace(target);
     })();
   </script>
   <noscript><meta http-equiv="refresh" content="0; url=/petnames/" /></noscript>
